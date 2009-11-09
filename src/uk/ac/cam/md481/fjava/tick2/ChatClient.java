@@ -3,12 +3,11 @@ package uk.ac.cam.md481.fjava.tick2;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import uk.ac.cam.cl.fjava.messages.Message;
 
 import uk.ac.cam.cl.fjava.messages.DynamicObjectInputStream;
+import uk.ac.cam.cl.fjava.messages.Message;
 
 public class ChatClient {
   private String host;

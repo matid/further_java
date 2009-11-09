@@ -1,14 +1,14 @@
 package uk.ac.cam.md481.fjava.tick2;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.util.Date;
+
 import uk.ac.cam.cl.fjava.messages.Message;
+import uk.ac.cam.cl.fjava.messages.NewMessageType;
 import uk.ac.cam.cl.fjava.messages.RelayMessage;
 import uk.ac.cam.cl.fjava.messages.StatusMessage;
-import uk.ac.cam.cl.fjava.messages.NewMessageType;
-import uk.ac.cam.cl.fjava.messages.DynamicObjectInputStream;
-import java.lang.NoSuchMethodException;
-import java.util.Date;
-import java.io.IOException;
-import java.lang.reflect.*;
 
 public class ServerMessage extends SystemMessage {
   public ServerMessage(Message message) throws NewMessageTypeException {
