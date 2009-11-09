@@ -37,10 +37,11 @@ public class StringChat {
       public void run(){
         try {
           InputStream stream = socket.getInputStream();
-          byte[] buffer = new byte[1024];
-          int size;
-          while((size = stream.read(buffer, 0, 1000)) != -1){
-            System.out.println(new String(buffer, 0, size).trim());
+          BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+          
+          String line = null;
+          while((line = reader.readLine()) != null){
+            System.out.println(line);
           }
         } catch(IOException e){}
       }
