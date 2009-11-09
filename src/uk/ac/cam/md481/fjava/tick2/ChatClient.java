@@ -27,6 +27,7 @@ public class ChatClient {
   public void disconnect(){
     try {
       this.connection.close();
+    } catch(NullPointerException e){
     } catch(IOException e){}
   }
   
@@ -93,7 +94,6 @@ public class ChatClient {
     try {
       client.connect();
       client.run();
-      
     } catch(IOException e){
       System.err.println("Cannot connect to " + args[0] + " on port " + args[1]);
     } catch(UserQuitException e){
