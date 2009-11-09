@@ -19,4 +19,8 @@ abstract class SystemMessage {
   public String toString(){
     return getMessage();
   }
+  
+  public void print(){
+    System.out.println(this);
+  }
 }

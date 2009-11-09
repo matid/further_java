@@ -6,17 +6,14 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
-import uk.ac.cam.cl.fjava.messages.ChangeNickMessage;
-import uk.ac.cam.cl.fjava.messages.ChatMessage;
 import uk.ac.cam.cl.fjava.messages.Message;
+
+import uk.ac.cam.cl.fjava.messages.DynamicObjectInputStream;
 
 public class ChatClient {
   private String host;
   private Integer port;
   private Socket connection;
-  
-  class UserQuitException extends Exception {}
   
   public ChatClient(String host, Integer port){
     this.host = host;
@@ -25,7 +22,7 @@ public class ChatClient {
   
   public void connect() throws IOException {
     this.connection = new Socket(this.host, this.port);
-    System.out.println(new ClientMessage("Connected to " + this.host + " on port " + this.port));
+    new ClientMessage("Connected to " + this.host + " on port " + this.port).print();
   }
   
   public void disconnect(){
@@ -36,7 +33,7 @@ public class ChatClient {
   
   public void run() throws UserQuitException {
     output();
-    input();    
+    input();
   }
   
   private void input() throws UserQuitException {
@@ -46,48 +43,37 @@ public class ChatClient {
       
       String line = null;
       while((line = reader.readLine()) != null){
-        stream.writeObject(parseInput(line));
-        stream.flush();
+        try {
+          stream.writeObject((new InputMessage(line)).getMessage());
+          stream.flush();
+        } catch(UnknownCommandException e){
+          new ClientMessage("Unknown command \"" + e.getCommand() + "\"").print();
+        }
       }
       
       stream.close();
-      
-      } catch(IOException e){
-        
-      }
+    } catch(IOException e){}
   }
   
   private void output(){
     Thread output = new Thread(){
       public void run(){
         try {
-          ObjectInputStream stream = new ObjectInputStream(connection.getInputStream());
+          DynamicObjectInputStream stream = new DynamicObjectInputStream(connection.getInputStream());
           
           Message message = null;
           while((message = (Message) stream.readObject()) != null){
-            System.out.println((new ServerMessage(message)));
-            
+            try {
+              System.out.println(new ServerMessage(message));
+            } catch(NewMessageTypeException e){
+              stream.addClass(e.getName(), e.getClassData());
+            }
           }
         } catch(IOException e){
-          
-        } catch(ClassNotFoundException e){
-          
-        }
+        } catch(ClassNotFoundException e){}
       }
     };
     output.start();
-  }
-  
-  public Message parseInput(String line) throws UserQuitException {
-    if(line.startsWith("\\nick")){
-      return new ChangeNickMessage(line.replace("\\nick ", ""));
-    } else if(line.equals("\\quit")){
-      throw new UserQuitException();
-    } else if(line.startsWith("\\")){
-      return null;
-    } else {
-      return new ChatMessage(line);
-    }
   }
   
   public static void main(String[] args) {
@@ -112,7 +98,7 @@ public class ChatClient {
     } catch(IOException e){
       System.err.println("Cannot connect to " + args[0] + " on port " + args[1]);
     } catch(UserQuitException e){
-      System.out.println((new ClientMessage("Connection terminated.")));
+      new ClientMessage("Connection terminated.").print();
     } finally {
       client.disconnect();
     }
