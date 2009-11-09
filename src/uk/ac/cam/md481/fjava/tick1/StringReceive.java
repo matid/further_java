@@ -40,20 +40,25 @@ public class StringReceive {
   }
   
   public static void main(String[] args){
+    String host;
+    int port;
+    
     try {
       if(args.length != 2) throw new IllegalArgumentException();
+      host = args[0];
+      port = Integer.parseInt(args[1]);
     } catch(IllegalArgumentException e){
       System.err.println("This application requires two arguments: <machine> <port>");
       return;
     }
     
-    StringReceive sr = new StringReceive(args[0], Integer.parseInt(args[1]));
+    StringReceive sr = new StringReceive(host, port);
     
     try {
       sr.connect();
       sr.loop();
     } catch(IOException e){
-      System.err.println("Could not connect to " + args[0] + " on port " + args[1]);
+      System.err.println("Cannot connect to " + args[0] + " on port " + args[1]);
     } finally {
       sr.disconnect();
     }

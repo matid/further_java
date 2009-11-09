@@ -58,20 +58,25 @@ public class StringChat {
   }
   
   public static void main(String[] args) {
+    String host;
+    int port;
+    
     try {
       if(args.length != 2) throw new IllegalArgumentException();
+      host = args[0];
+      port = Integer.parseInt(args[1]);
     } catch(IllegalArgumentException e){
       System.err.println("This application requires two arguments: <machine> <port>");
       return;
     }
     
-    StringChat chat = new StringChat(args[0], Integer.parseInt(args[1]));
+    StringChat chat = new StringChat(host, port);
     
     try {
       chat.connect();
       chat.loop();
     } catch(IOException e){
-      System.err.println("Could not connect to " + args[0] + " on port " + args[1]);
+      System.err.println("Cannot connect to " + args[0] + " on port " + args[1]);
     } finally {
       chat.disconnect();
     }
