@@ -1,7 +1,7 @@
 package uk.ac.cam.md481.fjava.tick2;
 
-import java.text.DateFormat;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
 abstract class SystemMessage {
   protected Date time;
@@ -9,7 +9,7 @@ abstract class SystemMessage {
   protected String text;
   
   private String getTimeStamp(){
-    return DateFormat.getTimeInstance().format(this.time);
+    return new SimpleDateFormat("H:m:s").format(this.time);
   }
   
   public String getMessage(){
