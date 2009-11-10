@@ -1,6 +1,5 @@
 package uk.ac.cam.cl.fjava.messages;
 
-
 public class NewMessageType extends Message {
 
 	private static final long serialVersionUID = 1L;
@@ -20,5 +19,4 @@ public class NewMessageType extends Message {
 	public byte[] getClassData() {
 		return classData;
 	}
-
 }

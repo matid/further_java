@@ -66,9 +66,11 @@ public class ChatClient {
             try {
               System.out.println(new ServerMessage(message));
             } catch(NewMessageTypeException e){
-              stream.addClass(e.getName(), e.getClassData());
-              new ClientMessage("New class " + e.getName() + " loaded.").print();
+              e.print();
+              e.run(stream);
+              
             } catch(ExecutableMessageException e){
+              e.print();
               e.run();
             }
           }

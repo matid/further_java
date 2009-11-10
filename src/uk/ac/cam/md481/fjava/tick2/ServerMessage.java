@@ -1,7 +1,5 @@
 package uk.ac.cam.md481.fjava.tick2;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.Date;
 
 import uk.ac.cam.cl.fjava.messages.Message;
@@ -25,20 +23,6 @@ public class ServerMessage extends SystemMessage {
     } else if(message instanceof NewMessageType){
       throw new NewMessageTypeException((NewMessageType) message);
     } else {
-      Class<?> unknownClass = message.getClass();
-      String text = unknownClass.getName() + ": ";
-      for(Field field: unknownClass.getDeclaredFields()){
-        try {
-          if(Modifier.isPublic(field.getModifiers())){
-            text += field.getName();
-            text += "(" + field.get(message) + "), ";
-          }
-        } catch(IllegalAccessException e){}
-      }
-      text = text.replaceAll("(, $)", "");
-      
-      new ClientMessage(text).print();
-      
       throw new ExecutableMessageException(message);
     }
   }
