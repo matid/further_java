@@ -9,10 +9,6 @@ public class NewMessageTypeException extends Exception {
   public NewMessageTypeException(NewMessageType message){
     this.message = message;
   }
-  
-  public void print(){
-	  new ClientMessage("New class " + this.message.getName().replaceAll(".*\\.(.*)", "$1") + " loaded.").print();
-	}
 	
 	public void run(DynamicObjectInputStream stream){
 	  stream.addClass(this.message.getName(), this.message.getClassData());

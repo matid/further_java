@@ -66,7 +66,6 @@ public class ChatClient {
             try {
               System.out.println(new ServerMessage(message));
             } catch(NewMessageTypeException e){
-              e.print();
               e.run(stream);
               
             } catch(ExecutableMessageException e){
