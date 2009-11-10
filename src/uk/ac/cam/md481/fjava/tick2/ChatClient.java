@@ -68,6 +68,8 @@ public class ChatClient {
             } catch(NewMessageTypeException e){
               stream.addClass(e.getName(), e.getClassData());
               new ClientMessage("New class " + e.getName() + " loaded.").print();
+            } catch(ExecutableMessageException e){
+              e.run();
             }
           }
         } catch(IOException e){

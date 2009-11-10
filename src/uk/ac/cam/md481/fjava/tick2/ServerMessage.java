@@ -1,7 +1,6 @@
 package uk.ac.cam.md481.fjava.tick2;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.Date;
 
@@ -11,7 +10,7 @@ import uk.ac.cam.cl.fjava.messages.RelayMessage;
 import uk.ac.cam.cl.fjava.messages.StatusMessage;
 
 public class ServerMessage extends SystemMessage {
-  public ServerMessage(Message message) throws NewMessageTypeException {
+  public ServerMessage(Message message) throws NewMessageTypeException, ExecutableMessageException {
     if(message instanceof RelayMessage){
       RelayMessage m = (RelayMessage) message;
       this.time = m.getTime();
@@ -27,24 +26,20 @@ public class ServerMessage extends SystemMessage {
       throw new NewMessageTypeException((NewMessageType) message);
     } else {
       Class<?> unknownClass = message.getClass();
-      this.time = new Date();
-      this.from = "Client";
-      this.text = unknownClass.getName() + ": ";
+      String text = unknownClass.getName() + ": ";
       for(Field field: unknownClass.getDeclaredFields()){
         try {
           if(Modifier.isPublic(field.getModifiers())){
-            this.text += field.getName();
-            this.text += "(" + field.get(message) + "), ";
+            text += field.getName();
+            text += "(" + field.get(message) + "), ";
           }
         } catch(IllegalAccessException e){}
       }
-      this.text = this.text.replaceAll("(, $)", "");
+      text = text.replaceAll("(, $)", "");
       
-      try {
-        unknownClass.getMethod("run", (Class<?>[]) null).invoke(message);
-      } catch(NoSuchMethodException e){
-      } catch(IllegalAccessException e){
-      } catch(InvocationTargetException e){}
+      new ClientMessage(text).print();
+      
+      throw new ExecutableMessageException(message);
     }
   }
 }
