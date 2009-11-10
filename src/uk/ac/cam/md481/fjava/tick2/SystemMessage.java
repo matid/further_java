@@ -9,7 +9,7 @@ abstract class SystemMessage {
   protected String text;
   
   private String getTimeStamp(){
-    return new SimpleDateFormat("H:m:s").format(this.time);
+    return new SimpleDateFormat("HH:mm:ss").format(this.time);
   }
   
   public String getMessage(){
