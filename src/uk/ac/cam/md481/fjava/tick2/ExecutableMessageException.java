@@ -18,12 +18,12 @@ public class ExecutableMessageException extends Exception {
   public void print(){
     String text = this.klass.getName().replaceAll(".*\\.(.*)", "$1") + ": ";
     for(Field field: this.klass.getDeclaredFields()){
+      field.setAccessible(true);
       try {
-        if(Modifier.isPublic(field.getModifiers())){
-          text += field.getName();
-          text += "(" + field.get(message) + "), ";
-        }
+        text += field.getName();
+        text += "(" + field.get(message) + ")";
       } catch(IllegalAccessException e){}
+      text += ", ";
     }
     text = text.replaceAll("(, $)", "");
     
