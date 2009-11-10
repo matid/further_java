@@ -28,7 +28,7 @@ public class ServerMessage extends SystemMessage {
     } else {
       Class<?> unknownClass = message.getClass();
       this.time = new Date();
-      this.from = "Server";
+      this.from = "Client";
       this.text = unknownClass.getName() + ": ";
       for(Field field: unknownClass.getDeclaredFields()){
         try {
