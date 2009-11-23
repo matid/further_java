@@ -23,8 +23,8 @@ public class ClientHandler {
     this.socket = socket;
     this.multiQueue = queue;
     this.multiQueue.register(messageQueue);
-    this.nickname = "Anonymous" + (new Random()).nextInt(100000);
-    this.messageQueue.put(new StatusMessage(this.nickname + " connected from " + this.socket.getInetAddress().getHostName() + "."));
+    this.nickname = "Anonymous" + (new Random()).nextInt(10000);
+    this.multiQueue.put(new StatusMessage(this.nickname + " connected from " + this.socket.getInetAddress().getHostName() + "."));
     
     input();
     output();

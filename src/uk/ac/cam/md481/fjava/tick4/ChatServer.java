@@ -26,7 +26,6 @@ public class ChatServer {
       while((client = socket.accept()) != null){
         new ClientHandler(client, queue);
       }
-      socket.accept();
     } catch(IOException e){
       System.err.println("Cannot use port number " + port);
     }
