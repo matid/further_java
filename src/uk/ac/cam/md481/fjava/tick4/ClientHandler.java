@@ -68,10 +68,7 @@ public class ClientHandler {
             stream.writeObject(message);
             stream.flush();
           }
-        } catch(IOException e){
-            multiQueue.deregister(messageQueue);
-            multiQueue.put(new StatusMessage(nickname + " has disconnected."));
-        }
+        } catch(IOException e){}
       }
     };
     output.start();
