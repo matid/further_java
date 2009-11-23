@@ -10,7 +10,7 @@ public class ChatServer {
   public static void main(String[] args){
     Integer port;
     ServerSocket socket;
-    MultiQueue<Message> queue = new MultiQueue<Message>();
+    MultiMessageQueue<Message> queue = new MultiMessageQueue<Message>();
     
     try {
       if(args.length != 1) throw new IllegalArgumentException();

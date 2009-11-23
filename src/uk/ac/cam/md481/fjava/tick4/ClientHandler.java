@@ -15,11 +15,11 @@ import uk.ac.cam.cl.fjava.messages.StatusMessage;
 
 public class ClientHandler {
   private Socket socket;
-  private MultiQueue<Message> multiQueue;
+  private MultiMessageQueue<Message> multiQueue;
   private String nickname;
   private MessageQueue<Message> messageQueue = new SafeMessageQueue<Message>();
   
-  public ClientHandler(Socket socket, MultiQueue<Message> queue){
+  public ClientHandler(Socket socket, MultiMessageQueue<Message> queue){
     this.socket = socket;
     this.multiQueue = queue;
     this.multiQueue.register(messageQueue);
